@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Upload PDF</title>
+  </head>
+  <body>
+    <h1>Upload Your PDF Document</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('upload_pdf') }}" method="post" enctype="multipart/form-data">
+      <input type="file" name="pdf_file" required>
+      <button type="submit">Upload and Process</button>
+    </form>
+  </body>
+</html>
