@@ -33,6 +33,8 @@ Issue: No Data Extracted from PDF?
 Check if Google Vision OCR API is set up correctly.
 Issue: Wrong Tax Calculation?
 Verify extracted financial data in result.html.
+Contributors
+Rishitha
 
 
 
