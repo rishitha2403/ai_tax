@@ -22,13 +22,12 @@
 <body>
   <h1>Tax Calculation Result</h1>
   <div class="result">
-    <p><strong>Extracted Text:</strong></p>
-    <p>{{ result.extracted_text }}</p>
-    
-    <p><strong>Income:</strong> {{ result.income }}</p>
-    <p><strong>Total Deductions:</strong> {{ result.deductions }}</p>
-    <p><strong>Taxable Income:</strong> {{ result.taxable_income }}</p>
-    <p><strong>Calculated Tax:</strong> {{ result.calculated_tax }}</p>
+    <p><strong>Income:</strong> ₹ {{ result.income }}</p>
+    <p><strong>Total Deductions:</strong> ₹ {{ result.total_deductions }}</p>
+    <p><strong>Taxable Income:</strong> ₹ {{ result.taxable_income }}</p>
+    <p><strong>Calculated Tax:</strong> ₹ {{ result.calculated_tax }}</p>
+    <p><strong>Tax Already Paid (TDS):</strong> ₹ {{ result.tax_paid }}</p>
+    <p><strong>Final Tax Liability / Refund:</strong> ₹ {{ result.final_tax_liability }}</p>
   </div>
   <br>
   <a href="{{ url_for('home') }}">Upload Another PDF</a>
