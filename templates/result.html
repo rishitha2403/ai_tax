@@ -1,74 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Tax Calculation Result</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background-color: gray;
-    }
-    .result {
-      margin-top: 1em;
-      padding: 1em;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-    }
-
-    .navbar {
-      background-color: #333;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: flex-end;
-    }
-    
-    .navbar a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-    
-    .navbar a:hover {
-      color: #ddd;
-    }
-    .wave{
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        height: 100%;
-        z-index: -1;
-    }
-    .result p {
-      margin: 0.5em 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Calculation Result</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .result, .advice {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 48%;
+        }
+        h1, h2 {
+            color: #573b8a;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #573b8a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .advice h3 {
+            color: #7c5295;
+            margin-top: 15px;
+        }
+        .advice ul {
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
-
-  <nav class="navbar">
-    <a href="#">Profile</a>
-    <a href="/">Logout</a>
-  </nav>
-
-  <img class="wave" src="{{ url_for('static', filename='rish/wave.png') }}">
-  <h1>Tax Calculation Result</h1>
-  <div class="result">
-    <p><strong>Income:</strong> ₹ {{ result.income }}</p>
-    <p><strong>Total Deductions:</strong> ₹ {{ result.total_deductions }}</p>
-    <p><strong>Taxable Income:</strong> ₹ {{ result.taxable_income }}</p>
-    <p><strong>Calculated Tax:</strong> ₹ {{ result.calculated_tax }}</p>
-    <p><strong>Tax Already Paid (TDS):</strong> ₹ {{ result.tax_paid }}</p>
-    <p><strong>Final Tax Liability / Refund:</strong> ₹ {{ result.final_tax_liability }}</p>
-  </div>
-  <br>
-  <button><a href="{{ url_for('home') }}" style="color: black;">Upload Another PDF</a></button>
+    <div class="container">
+        <div class="result">
+            <h1>Tax Calculation Result</h1>
+            <p><strong>Income:</strong> ₹ {{ result.income }}</p>
+            <p><strong>Total Deductions:</strong> ₹ {{ result.total_deductions }}</p>
+            <p><strong>Taxable Income:</strong> ₹ {{ result.taxable_income }}</p>
+            <p><strong>Calculated Tax:</strong> ₹ {{ result.calculated_tax }}</p>
+            <p><strong>Tax Already Paid (TDS):</strong> ₹ {{ result.tax_paid }}</p>
+            <p><strong>Final Tax Liability / Refund:</strong> ₹ {{ result.final_tax_liability }}</p>
+            <a href="{{ url_for('home') }}" class="button">Upload Another PDF</a>
+        </div>
+        <div class="advice">
+            <h2>Personalized Tax Advice</h2>
+            {{ result.personalized_advice | safe }}
+        </div>
+    </div>
 </body>
 </html>

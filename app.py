@@ -6,6 +6,10 @@ import io
 import spacy
 import re
 from flask import Flask, request, redirect, url_for, session, render_template, flash
+from google import genai
+
+client = genai.Client(api_key='AIzaSyDsvogQH70ET8LxBEzjMkp3IO3ofFh-mOQ')
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for session management
@@ -21,7 +25,7 @@ DEDUCTIONS = {
 }
 
 # Load spaCy model (optional: can be used in future for refinement)
-#nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_sm")
 
 # (Optional) On Windows, set the Tesseract executable path:
 # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -51,7 +55,6 @@ def extract_text_from_pdf(pdf_path):
                 extracted_text += f"\n--- OCR from Image {img_index} (Page {page_num}) ---\n{ocr_text}\n"
     
     return extracted_text.strip()
-
 
 def extract_financial_data(text):
     """
@@ -118,7 +121,7 @@ def calculate_tax(financial_data):
     # Apply standard tax rate
     tax_due = taxable_income * TAX_RATE
 
-    return {
+    tax_data = {
         "income": income,
         "total_deductions": total_deductions,
         "taxable_income": taxable_income,
@@ -127,19 +130,82 @@ def calculate_tax(financial_data):
         "final_tax_liability": tax_due - financial_data["tax_paid"]
     }
 
+    # Get personalized tax advice
+    tax_advice = get_personalized_tax_advice(tax_data)
+    tax_data["personalized_advice"] = tax_advice
+
+    return tax_data
+
+def get_personalized_tax_advice(financial_data):
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-001',
+        contents=f"""
+        Based on the following financial information for an Indian taxpayer in the 2025 tax year:
+        Income: ₹{financial_data['income']}
+        Total Deductions: ₹{financial_data['total_deductions']}
+        Taxable Income: ₹{financial_data['taxable_income']}
+        Calculated Tax: ₹{financial_data['calculated_tax']}
+        Tax Already Paid: ₹{financial_data['tax_paid']}
+        Final Tax Liability: ₹{financial_data['final_tax_liability']}
+
+        Provide three personalized tax-saving strategies applicable to this individual's situation. 
+        Also, explain any potential risks or areas where they should be cautious in their tax filing.
+        Provide the response as if you were talking to the individual directly.
+        Format your response using HTML tags for better readability, using <h2> for main headings, 
+        <h3> for subheadings, <ul> and <li> for lists, and <p> for paragraphs.
+        Structure it like this:
+        First,
+        <h2>Tax Saving Strategies Heading</h2>
+        <p>Some text like based on your income and final taxable income...</p>
+        <h3>Strategy 1 Heading</h3>
+        <p>Strategy 1 details...</p>
+        <h3>Strategy 2 Heading</h3>
+        <p>Strategy 2 details...</p>
+        <h3>Strategy 3 Heading</h3>
+        <p>Strategy 3 details...</p>
+        Next,
+        <h2>Important Cautions, Risks, and Recommendations Heading</h2>
+        <p>Some text like be cautious about...</p>
+        Also feel free to add lists inside paragraphs for better readability.
+        Also feel free to add any additional information you think is relevant.
+        """
+    )
+
+    advice_text = response.text
+
+    # Remove leading and trailing backticks
+    if advice_text.startswith("```html"):
+        advice_text = advice_text[7:]  # Remove ```html
+    if advice_text.endswith("```"):
+        advice_text = advice_text[:-3]  # Remove trailing ```
+    
+    return advice_text.strip()  # Remove any leading/trailing whitespace
+
 
 @app.route("/", methods=["GET", "POST"])
 def login():
-    """Handles user login."""
     if request.method == "POST":
-        username = request.form["username"]
-        # Accept any password if username is "rishitha"
-        if username.lower() == "rishitha":
-            session["user"] = username
-            return redirect(url_for("home"))
+        username = request.form.get("unm")
+        password = request.form.get("pwd")
+        if username and password:
+            # For simplicity, we're just checking if the username is "Rishitha"
+            # In a real application, you'd check against a database
+            if username == "Rishitha":
+                session["user"] = username
+                return redirect(url_for("home"))
+            else:
+                flash("Invalid username or password!", "error")
         else:
-            flash("Invalid username!", "error")
+            flash("Please provide both username and password!", "error")
     return render_template("login.html")
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    # Here you would typically handle the signup process
+    # For now, we'll just redirect to login
+    flash("Signup functionality not implemented yet", "info")
+    return redirect(url_for("login"))
 
 @app.route("/home")
 def home():
@@ -174,7 +240,7 @@ def upload_pdf():
     # Step 2: Extract financial data
     financial_data = extract_financial_data(extracted_text)
 
-    # Step 3: Calculate tax
+    # Step 3: Calculate tax and get personalized advice
     tax_data = calculate_tax(financial_data)
 
     # Store results in session

@@ -25,15 +25,31 @@
                 </form>
             </div>
             <div class="login">
-                <form method="POST">
+                <form method="POST" action="{{ url_for('login') }}">
                     <label for="chk" aria-hidden="true">Login</label>
-                    <input type="username" name="username" id="username" placeholder="Username" required="">
-                    <input type="Password" name="password" id="password" placeholder="Password" required="">
-                    <button>Login</button>
+                    <input type="text" name="unm" id="unm" placeholder="Username" required="">
+                    <input type="password" name="pwd" id="pwd" placeholder="Password" required="">
+                    <button type="submit">Login</button>
                 </form>
             </div>
         </div>        
     </div>
+    <script>
+        /*
+        var name = document.getElementById('unm').value;
+        var pwd = document.getElementById('pwd').value;
+        function chkLogin(){
+            if(name === ""){
+            }
+            else if(name === "Rishitha"){
+                window.location.href = "/home";
+            }
+            else{
+                alert("Incorrect Username or Password");
+            }
+        }
+            */
+    </script>
     <script type="text/javascript" src="{{ url_for('static', filename='rish/login.js') }}"></script>
 </body>
 </html>

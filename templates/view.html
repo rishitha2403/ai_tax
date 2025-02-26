@@ -1,128 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Upload PDF</title>
-  <style>
-    /* Reset some default browser styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: Arial, sans-serif;
-      background-color: grey;
-      color: #333;
-    }
-    
-    /* Navbar styling */
-    .navbar {
-      background-color: #333;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: flex-end;
-    }
-    
-    .navbar a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-    
-    .navbar a:hover {
-      color: #ddd;
-    }
-    
-    /* Container styling */
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    h2 {
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    
-    /* Form styling */
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    
-    input[type="file"] {
-      padding: 0.5rem;
-      width: 100%;
-    }
-    
-    button {
-      background-color: #333;
-      color: #fff;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-      width: 100%;
-    }
-    .wave{
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        height: 100%;
-        z-index: -1;
-    }
-    button:hover {
-      background-color: #555;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tax Assistant - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+            position: relative;
+        }
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+        .upload-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+        .overlay {
+            background: #573b8a;
+            background: linear-gradient(to right, #573b8a, #7c5295);
+            color: #fff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+        .overlay-panel {
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            height: 100%;
+            width: 50%;
+            text-align: center;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
+        p {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+        .social-container {
+            margin: 20px 0;
+        }
+        .social-container a {
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
+        }
+        form {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 0 50px;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        input, button {
+            background: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+        }
+        button {
+            border-radius: 20px;
+            border: 1px solid #573b8a;
+            background: #573b8a;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        button:focus {
+            outline: none;
+        }
+        button.ghost {
+            background: transparent;
+            border-color: #fff;
+        }
+    </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a href="#">Profile</a>
-    <a href="/">Logout</a>
-  </nav>
-  <img class="wave" src="{{ url_for('static', filename='rish/wave.png') }}">
-  <div class="container">
-    <h2>Upload Your PDF Document</h2>
-        <form action="/upload_pdf" method="post" enctype="multipart/form-data">
-            <label for="file">Choose PDF file:</label>
-            <input type="file" id="file" name="file" accept="application/pdf" required>
-            <br><br>
-            <button type="submit">Upload</button>
-        </form>
-  </div>
-  <!-- Optional JavaScript to handle file selection (backend logic not included) -->
-  <script>
-    document.getElementById('pdfUploadForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Prevent default form submission
-      
-      const fileInput = document.getElementById('pdfFile');
-      if (fileInput.files.length > 0) {
-        // Here you would typically create a FormData object and send the file to your backend.
-        console.log('Selected file:', fileInput.files[0]);
-        alert('File selected: ' + fileInput.files[0].name);
-      } else {
-        alert('Please select a PDF file to upload.');
-      }
-    });
-  </script>
+    <div class="container">
+        <div class="form-container upload-container">
+            <form action="{{ url_for('upload_pdf') }}" method="post" enctype="multipart/form-data">
+                <h1>Upload Tax Document</h1>
+                <input type="file" name="file" accept=".pdf" required>
+                <button type="submit">Upload and Process</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Welcome, {{ user }}!</h1>
+                    <p>Upload your tax documents and let our AI assistant handle the rest.</p>
+                    <a href="{{ url_for('logout') }}"><button class="ghost">Logout</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
