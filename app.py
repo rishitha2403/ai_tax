@@ -21,7 +21,7 @@ DEDUCTIONS = {
 }
 
 # Load spaCy model (optional: can be used in future for refinement)
-nlp = spacy.load("en_core_web_sm")
+#nlp = spacy.load("en_core_web_sm")
 
 # (Optional) On Windows, set the Tesseract executable path:
 # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"

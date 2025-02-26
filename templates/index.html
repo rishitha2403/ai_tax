@@ -1,23 +1,125 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Upload PDF</title>
-  </head>
-  <body>
-    <h1>Upload Your PDF Document</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form action="{{ url_for('upload_pdf') }}" method="post" enctype="multipart/form-data">
-      <input type="file" name="pdf_file" required>
-      <button type="submit">Upload and Process</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload PDF</title>
+  <style>
+    /* Reset some default browser styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    
+    /* Navbar styling */
+    .navbar {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    
+    .navbar a:hover {
+      color: #ddd;
+    }
+    
+    /* Container styling */
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    /* Form styling */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    
+    input[type="file"] {
+      padding: 0.5rem;
+      width: 100%;
+    }
+    
+    button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
+  </nav>
+  
+  <!-- Main content -->
+  <div class="container">
+    <h2>Upload Your PDF</h2>
+    <form id="pdfUploadForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="pdfFile">Select PDF file:</label>
+        <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" required>
+      </div>
+      <button type="submit">Upload</button>
     </form>
-  </body>
+  </div>
+  
+  <!-- Optional JavaScript to handle file selection (backend logic not included) -->
+  <script>
+    document.getElementById('pdfUploadForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      
+      const fileInput = document.getElementById('pdfFile');
+      if (fileInput.files.length > 0) {
+        // Here you would typically create a FormData object and send the file to your backend.
+        console.log('Selected file:', fileInput.files[0]);
+        alert('File selected: ' + fileInput.files[0].name);
+      } else {
+        alert('Please select a PDF file to upload.');
+      }
+    });
+  </script>
+</body>
 </html>

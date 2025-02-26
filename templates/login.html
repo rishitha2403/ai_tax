@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Tax Calculation Result</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2em;
-    }
-    .result {
-      margin-top: 1em;
-      padding: 1em;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-    }
-    .result p {
-      margin: 0.5em 0;
-    }
-  </style>
+	<title>Animated Login Form</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='rish/login.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <h1>Tax Calculation Result</h1>
-  <div class="result">
-    <p><strong>Income:</strong> {{ result.income }}</p>
-    <p><strong>Total Allowable Deductions:</strong> {{ result.total_deductions }}</p>
-    <p><strong>Taxable Income:</strong> {{ result.taxable_income }}</p>
-    <p><strong>Calculated Tax:</strong> {{ result.calculated_tax }}</p>
-    <p><strong>Tax Already Paid (if any):</strong> {{ result.tax_paid }}</p>
-  </div>
-  <br>
-  <a href="{{ url_for('home') }}">Upload Another PDF</a>
+	<img class="wave" src="{{ url_for('static', filename='rish/wave.png') }}">
+	<div class="container">
+		<div class="img">
+			<img src="{{ url_for('static', filename='rish/tax.png') }}">
+		</div>
+		<div class="main">
+            <input type="checkbox" id="chk" aria-hidden="true">
+            <div class="signup">
+                <form>
+                    <label for="chk" aria-hidden="true" style="color: #573b8a;">Sign up</label>
+                    <input type="text" name="txt" placeholder="User name" required="">
+                    <input type="email" name="email" placeholder="Email" required="">
+                    <input type="Password" name="pswd" placeholder="Password" required="">
+                    <button>Sign up</button>
+                </form>
+            </div>
+            <div class="login">
+                <form method="POST">
+                    <label for="chk" aria-hidden="true">Login</label>
+                    <input type="username" name="username" id="username" placeholder="Username" required="">
+                    <input type="Password" name="password" id="password" placeholder="Password" required="">
+                    <button>Login</button>
+                </form>
+            </div>
+        </div>        
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='rish/login.js') }}"></script>
 </body>
 </html>
