@@ -1,4 +1,4 @@
-Note:Dont signup the page Just put the username as Rishitha and then put a random password then upload one tax related file i provided here. Then you can finally see the working of this all.
+Note:Dont signup the page Just put the username as Rishitha and then put a random password then upload one tax related file i provided here. Then you can finally see the working of this all.And use this file for referrence. This is the link for the pdf file uploaded in google drive. https://drive.google.com/drive/folders/1gRBeCugdNjPmelMt2OuogXL9Ruzwb7vZ
 
 AI-Driven Tax Assistant
 Project Description
